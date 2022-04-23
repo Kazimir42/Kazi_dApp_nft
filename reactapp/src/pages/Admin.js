@@ -1,9 +1,8 @@
 import {useEffect, useState} from "react";
-import {ethers} from 'ethers';
+import {BigNumber, ethers} from 'ethers';
 import Contract from '../artifacts/contracts/Character.sol/Character.json'
 
 const address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
-
 
 function Admin() {
     const [totalNft, setTotalNft] = useState(0)
@@ -15,7 +14,6 @@ function Admin() {
     useEffect(() => {
         getData();
     }, [])
-
 
     async function getData() {
         if (typeof window.ethereum !== 'undefined') {
@@ -56,8 +54,34 @@ function Admin() {
                 //get the contract
                 const contract = new ethers.Contract(address, Contract.abi, signer);
                 try {
-                    //call functions to gets data in contract
+                    //update contract
                     contract.changeMaxMintAllowed(newValue)
+                }catch(error) {
+                    console.log(error)
+                }
+            }
+        }
+    }
+
+    async function updatePrice(type)
+    {
+        if (typeof window.ethereum !== 'undefined') {
+            let chainId = await window.ethereum.request({method: 'eth_chainId'})
+            if (chainId === "0x1" || chainId === "0x3" || chainId === "0x4" || chainId === "0x5" || chainId === "0x2a" || chainId === "0x539") {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer = provider.getSigner();
+                //get the contract
+                const contract = new ethers.Contract(address, Contract.abi, signer);
+                try {
+                    const decimals = 18;
+                    //update contract
+                    if (type === 'presale') {//PRESALE
+                        let newValue = document.getElementById('inputPricePresale').value
+                        contract.changePricePresale(ethers.utils.parseUnits(newValue, decimals)) //need that else error with big number
+                    }else if(type === 'sale'){//SALE
+                        let newValue = document.getElementById('inputPriceSale').value
+                        contract.changePriceSale(ethers.utils.parseUnits(newValue, decimals)) //need that else error with big number
+                    }
                 }catch(error) {
                     console.log(error)
                 }
@@ -83,8 +107,18 @@ function Admin() {
                 <h2 className="text-2xl font-bold underline">Update contract</h2>
                 <div className="my-4">
                     <p>Max mint allowed :</p>
-                    <input id="inputMaxMint" type="number" className="border border-black w-32 mr-2" placeholder="number"/>
-                    <button className="bg-blue-500 text-white px-2 hover:bg-blue-600" onClick={updateMaxMint}>valider</button>
+                    <input id="inputMaxMint" type="number" className="border border-black w-32 mr-2 p-1" placeholder="number"/>
+                    <button className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500" onClick={updateMaxMint}>valider</button>
+                </div>
+                <div className="my-4">
+                    <p>Price presale :</p>
+                    <input id="inputPricePresale" type="number" className="border border-black w-32 mr-2 p-1" placeholder="in ETH"/>
+                    <button className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500" onClick={() => updatePrice('presale')}>valider</button>
+                </div>
+                <div className="my-4">
+                    <p>Price sale :</p>
+                    <input id="inputPriceSale" type="number" className="border border-black w-32 mr-2 p-1" placeholder="in ETH"/>
+                    <button className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500" onClick={() => updatePrice('sale')}>valider</button>
                 </div>
 
             </div>
