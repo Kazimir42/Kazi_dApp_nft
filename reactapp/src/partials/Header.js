@@ -3,7 +3,7 @@
 
 function Header() {
     return (
-        <div>
+        <div className=" bg-gray-200">
             header
         </div>
     )
