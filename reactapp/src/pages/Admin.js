@@ -1,6 +1,10 @@
 import {useEffect, useState} from "react";
 import {BigNumber, ethers} from 'ethers';
 import Contract from '../artifacts/contracts/Character.sol/Character.json'
+import {Buffer} from "buffer";
+const { MerkleTree } = require("merkletreejs");
+const keccak256 = require("keccak256");
+const tokens = require("./tokens.json");
 
 const address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
@@ -10,10 +14,44 @@ function Admin() {
     const [currentStep, setCurrentStep] = useState(0)
     const [pricePresale, setPricePresale] = useState(0)
     const [priceSale, setPriceSale] = useState(0)
+    const [merkleRoot, setMerkleRoot] = useState(0)
+    const [tokensFile, setTokensFile] = useState(0)
 
     useEffect(() => {
         getData();
     }, [])
+
+
+    function uploadFile(event) {
+        setTokensFile(event.target.files[0]);
+    }
+
+    async function newMerkleRoot() {
+
+        if (typeof window.ethereum !== 'undefined') {
+            let chainId = await window.ethereum.request({method: 'eth_chainId'})
+            if (chainId === "0x1" || chainId === "0x3" || chainId === "0x4" || chainId === "0x5" || chainId === "0x2a" || chainId === "0x539") {
+
+                //convert to json data of upload file
+                let tokens = JSON.parse(await tokensFile.text())
+
+                //map in array
+                let tab = [];
+                tokens.map((token) => {
+                    tab.push(token.address);
+                });
+
+                //create merkle tree
+                const leaves = tab.map((address) => keccak256(address));
+                const tree = new MerkleTree(leaves, keccak256, { sort: true });
+                const root = tree.getHexRoot();
+                console.log("root : " + root);
+            }
+        }
+
+
+    }
+
 
     async function getData() {
         if (typeof window.ethereum !== 'undefined') {
@@ -29,12 +67,14 @@ function Admin() {
                     const step = await contract.sellingStep();
                     const pricePresale = await contract.pricePresale();
                     const priceSale = await contract.priceSale();
+                    const merkleRoot = await contract.merkleRoot();
 
                     setTotalNft(Number(totalNft))
                     setMaxMint(Number(maxMint))
                     setCurrentStep(step)
                     setPricePresale(ethers.utils.formatEther(Number(pricePresale)))
                     setPriceSale(ethers.utils.formatEther(Number(priceSale)))
+                    setMerkleRoot(merkleRoot)
 
                 }catch(error) {
                     console.log(error)
@@ -96,6 +136,7 @@ function Admin() {
 
             <div className="mt-10">
                 <h2 className="text-2xl font-bold underline">Infos</h2>
+                <p>Merkle root : {merkleRoot}</p>
                 <p>NTFs number : {totalNft}</p>
                 <p>Max mint : {maxMint}</p>
                 <p>Current step : {currentStep}</p>
@@ -105,6 +146,12 @@ function Admin() {
 
             <div className="mt-10">
                 <h2 className="text-2xl font-bold underline">Update contract</h2>
+                <div className="my-4">
+                    <p>Merkle root :</p>
+                    <input type="file" name="file" onChange={uploadFile} />
+
+                    <button className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500" onClick={newMerkleRoot}>valider</button>
+                </div>
                 <div className="my-4">
                     <p>Max mint allowed :</p>
                     <input id="inputMaxMint" type="number" className="border border-black w-32 mr-2 p-1" placeholder="number"/>
