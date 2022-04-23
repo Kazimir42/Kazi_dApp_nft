@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import {BigNumber, ethers} from 'ethers';
 import Contract from '../artifacts/contracts/Character.sol/Character.json'
-import {Buffer} from "buffer";
 const { MerkleTree } = require("merkletreejs");
 const keccak256 = require("keccak256");
 const tokens = require("./tokens.json");
@@ -31,6 +30,10 @@ function Admin() {
         if (typeof window.ethereum !== 'undefined') {
             let chainId = await window.ethereum.request({method: 'eth_chainId'})
             if (chainId === "0x1" || chainId === "0x3" || chainId === "0x4" || chainId === "0x5" || chainId === "0x2a" || chainId === "0x539") {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer = provider.getSigner();
+                //get the contract
+                const contract = new ethers.Contract(address, Contract.abi, signer);
 
                 //convert to json data of upload file
                 let tokens = JSON.parse(await tokensFile.text())
@@ -45,7 +48,13 @@ function Admin() {
                 const leaves = tab.map((address) => keccak256(address));
                 const tree = new MerkleTree(leaves, keccak256, { sort: true });
                 const root = tree.getHexRoot();
-                console.log("root : " + root);
+
+                try {
+                    //update contract
+                    contract.changeMerkleRoot(root)
+                }catch(error) {
+                    console.log(error)
+                }
             }
         }
 
