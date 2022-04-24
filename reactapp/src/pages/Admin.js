@@ -250,16 +250,34 @@ function Admin() {
         }
     }
 
+    function StepOnString()
+    {
+        switch (currentStep)
+        {
+            case 0:
+                return 'Before'
+            case 1:
+                return 'Presale'
+            case 2:
+                return 'Sale'
+            case 3:
+                return 'SoldOut'
+            case 4:
+                return 'Reveal'
+        }
+    }
+
     function NiceAddress() {
         return(
             <div>
                 <div className="mt-10">
-                    <h2 className="text-2xl font-bold underline">Infos</h2>
+                    <h2 className="text-2xl font-bold underline">Contract Infos</h2>
+                    <p>Contract address : {address}</p>
                     <p>Contract paused : {paused ? 'true' : 'false'}</p>
                     <p>Whitelist Merkle root : {merkleRoot}</p>
                     <p>NTFs number : {totalNft}</p>
                     <p>Max mint : {maxMint}</p>
-                    <p>Current step : {currentStep}</p>
+                    <p>Current step : <StepOnString /></p>
                     <p>Price presale : {pricePresale} ETH</p>
                     <p>Price sale : {priceSale} ETH</p>
                     <p>baseURI : {baseURI}</p>
