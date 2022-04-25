@@ -14,8 +14,6 @@ function Whitelist() {
         setCount((Math.random(1,20) * 100).toFixed(0))
     }, [])
 
-
-
     async function beWhitelist()
     {
         //get account
@@ -50,7 +48,7 @@ function Whitelist() {
 
     return (
         <div className="container mx-auto mt-10">
-            <h1 className="text-6xl font-black text-center mb-8 mt-6">Characters NFT</h1>
+            <h1 className="text-6xl font-black text-center mb-8 mt-6">Whitelist</h1>
             <ExampleNtfContainer/>
 
             <p className="text-lg text-center mx-20 mt-6">
