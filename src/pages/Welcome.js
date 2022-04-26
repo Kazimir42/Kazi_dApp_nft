@@ -1,6 +1,5 @@
 import ExampleNtfContainer from "../components/ExampleNtfContainer";
 import {Link} from "react-router-dom";
-import Whitelist from "./Whitelist";
 import {useEffect} from "react";
 
 

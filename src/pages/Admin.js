@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {ethers} from 'ethers';
-import Contract from '../artifacts/contracts/Character.sol/Character.json'
+import Contract from '../contracts/Character.sol/Character.json'
 
 const {MerkleTree} = require("merkletreejs");
 const keccak256 = require("keccak256");
