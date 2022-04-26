@@ -18,11 +18,13 @@
 .env.test.local
 .env.production.local
 
+/.idea
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 <<<<<<< HEAD
 
-.idea
+
 =======
 >>>>>>> c3d6275e846eb6acaf05730e8d9bf8ba4278eadd
