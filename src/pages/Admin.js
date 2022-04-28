@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import {ethers} from 'ethers';
 import Contract from '../contracts/Character.sol/Character.json'
+import {Route, Redirect} from 'react-router-dom'
+import {useAuthValue} from '../context/AuthContext'
 
 const {MerkleTree} = require("merkletreejs");
 const keccak256 = require("keccak256");
@@ -8,6 +10,9 @@ const keccak256 = require("keccak256");
 const address = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; //address of contract
 
 function Admin() {
+    //USER
+    const {currentUser} = useAuthValue()
+
     //CONTRACT DATA
     const [totalNft, setTotalNft] = useState(0)
     const [maxMint, setMaxMint] = useState(0)

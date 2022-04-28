@@ -1,22 +1,24 @@
 import {useState} from "react";
-import {
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    onAuthStateChanged
-} from "firebase/auth"
-import {auth} from "../firebase-config"
+import {auth} from "../firebase"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { useNavigate } from 'react-router-dom';
+import { useAuthValue } from '../context/AuthContext'
+
 
 function Login() {
+    let navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const {setTimeActive} = useAuthValue();
 
     function handleForm(e)
     {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                console.log('login successful');
+            .then((response) => {
+                console.log('login success');
+                navigate('/admin')
             }).catch((error) => {
             console.log('login fail');
         })

@@ -1,5 +1,7 @@
 import {Link} from "react-router-dom";
 import { useLocation } from "react-router-dom"
+import { signOut } from 'firebase/auth'
+import { auth } from '../firebase'
 
 
 function Header() {
@@ -14,6 +16,8 @@ function Header() {
                     :
                     <Link to="/">Home</Link>
             }
+            <span onClick={() => signOut(auth)}>Sign Out</span>
+
         </div>
     )
 }export default Header;
