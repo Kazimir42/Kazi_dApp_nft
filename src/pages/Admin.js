@@ -423,7 +423,7 @@ function Admin() {
     function BadAddress() {
         return(
             <div>
-                <div className="mt-10">
+                <div className="mt-10 text-center">
                     Check your connected address and the network
                 </div>
 
@@ -441,7 +441,7 @@ function Admin() {
     return (
 
         <div className="container mx-auto mt-10">
-            <h1 className="text-4xl font-bold">Admin dashboard</h1>
+            <h1 className="text-6xl font-black text-center mb-8 mt-6">Admin dashboard</h1>
 
             <Render />
         </div>

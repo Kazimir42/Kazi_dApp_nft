@@ -1,9 +1,12 @@
 import ExampleNtfContainer from "../components/ExampleNtfContainer";
 import {Link} from "react-router-dom";
 import {useEffect} from "react";
+import {useAuthValue} from "../context/AuthContext";
+import {useStepValue} from "../context/StepContext";
 
 
 function Welcome() {
+    const {currentStep} = useStepValue()
 
     useEffect(() => {
         getData();
@@ -15,6 +18,25 @@ function Welcome() {
             if (chainId === "0x1" || chainId === "0x3" || chainId === "0x4" || chainId === "0x5" || chainId === "0x2a" || chainId === "0x539") {
 
             }
+        }
+    }
+
+    function Step()
+    {
+        switch (currentStep)
+        {
+            case 'Before':
+                return <Link className="mx-auto block px-6 py-2 block bg-amber-600 text-lg text-white w-fit text-center mb-1" to='/whitelist'>Be whitelist</Link>
+                break
+            case 'Presale':
+                return <Link className="mx-auto block px-6 py-2 block bg-amber-600 text-lg text-white w-fit text-center mb-1" to='/premint'>Premint</Link>
+                break
+            case 'Sale':
+                return <Link className="mx-auto block px-6 py-2 block bg-amber-600 text-lg text-white w-fit text-center mb-1" to='/mint'>Mint</Link>
+                break
+            case 'SoldOut':
+                return <Link className="mx-auto block px-6 py-2 block bg-amber-600 text-lg text-white w-fit text-center mb-1" to=''>View on OpenSea</Link>
+                break
         }
     }
 
@@ -32,10 +54,7 @@ function Welcome() {
 
             <div className="mx-auto block text-center mt-10 mb-10">
             </div>
-            <Link className="mx-auto block px-6 py-2 block bg-amber-600 text-lg text-white w-fit text-center mb-1" to='/whitelist' >Be whitelist</Link>
-            <Link className="mx-auto block px-6 py-2 block bg-amber-600 text-lg text-white w-fit text-center mb-1" to='/presale' >Presale</Link>
-            <Link className="mx-auto block px-6 py-2 block bg-amber-600 text-lg text-white w-fit text-center mb-1" to='/sale' >Sale</Link>
-
+            <Step />
         </div>
     )
 }
