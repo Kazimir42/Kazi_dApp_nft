@@ -4,7 +4,7 @@ import './index.css';
 import Whitelist from "./pages/Whitelist";
 import Admin from "./pages/Admin";
 import Header from "./partials/Header";
-import Welcome from "./pages/Welcome";
+import Home from "./pages/Home";
 import Presale from "./pages/Presale";
 import Sale from "./pages/Sale";
 import Login from "./pages/Login";
@@ -33,7 +33,7 @@ function App() {
                     <AuthProvider value={{currentUser}}>
                         <Header />
                         <Routes>
-                            <Route path="/" exact element={<Welcome />}/>
+                            <Route path="/" exact element={<Home />}/>
                             <Route path="/whitelist" exact element={<Whitelist />}/>
                             <Route path="/presale" exact element={<Presale />}/>
                             <Route path="/sale" exact element={<Sale />}/>

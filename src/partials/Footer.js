@@ -8,7 +8,7 @@ function Footer() {
     const {currentUser} = useAuthValue();
 
     return(
-        <footer className="bg-neutral-900 py-16 mt-auto">
+        <footer className="py-16 mt-auto" style={{backgroundColor: "#000"}}>
             <div className="container mx-auto flex flex-row justify-between">
 
                     {currentUser
