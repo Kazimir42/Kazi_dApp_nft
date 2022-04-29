@@ -1,14 +1,13 @@
 import {Link} from "react-router-dom";
-import { useLocation } from "react-router-dom"
-import { signOut } from 'firebase/auth'
-import { auth } from '../firebase'
-import {useAuthValue} from "../context/AuthContext";
 import StepButton from "../components/StepButton";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faDiscord, faTwitter } from '@fortawesome/free-brands-svg-icons'
+
+library.add(faDiscord, faTwitter);
 
 
 function Header() {
-    const sampleLocation = useLocation();
-    const {currentUser} = useAuthValue();
 
     return (
         <header className="py-4 absolute w-full">
@@ -16,7 +15,18 @@ function Header() {
                 <Link to="/">
                     <img src="logo192.png" className="h-16" />
                 </Link>
-                <StepButton />
+                <div className="flex flex-row items-center gap-8">
+                    <div className="flex flex-row items-center gap-4">
+                        <Link to="/">
+                            <FontAwesomeIcon className="text-white h-8" icon="fa-brands fa-twitter" />
+                        </Link>
+                        <Link to="/">
+                            <FontAwesomeIcon className="text-white h-8" icon="fa-brands fa-discord" />
+                        </Link>
+                    </div>
+                    <StepButton />
+                </div>
+
             </div>
         </header>
     )
