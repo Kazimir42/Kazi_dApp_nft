@@ -9,11 +9,12 @@ import Presale from "./pages/Presale";
 import Sale from "./pages/Sale";
 import Login from "./pages/Login";
 import {AuthProvider} from "./context/AuthContext";
-import {auth} from './firebase'
+import {auth, db} from './firebase'
 import {onAuthStateChanged} from 'firebase/auth'
 import PrivateRoute from './PrivateRoute'
 import Footer from "./partials/Footer";
 import {StepProvider} from "./context/StepContext";
+import {collection, query, where, getDocs, setDoc, doc , getDoc } from "firebase/firestore";
 
 function App() {
     const [currentUser, setCurrentUser] = useState(null)
@@ -23,8 +24,25 @@ function App() {
         onAuthStateChanged(auth, (user) => {
             setCurrentUser(user)
         })
-        setCurrentStep('Before')
+        getStep();
     }, [])
+
+    //get step in DB and save the current step in context
+    async function getStep() {
+
+        let response = await getDoc(doc(db, 'steps', 'eyZMZF6NREwvHwMLsDJb'))
+        response = response.data();
+
+        for (const [key, value] of Object.entries(response)) {
+            if (value === true){
+                setCurrentStep(key)
+            }
+        }
+
+
+
+
+    }
 
     return (
         <div className="min-h-screen flex flex-col">
