@@ -15,7 +15,7 @@ function Presale() {
                 scelerisque, nunc luctus malesuada porta.
             </p>
 
-            <button className="mt-10 mx-auto px-6 py-2  block bg-amber-600 text-lg text-white">Presale</button>
+            <button className="mt-10 mx-auto px-6 py-2  block bg-primary text-lg text-white">Presale</button>
         </div>
     )
 }

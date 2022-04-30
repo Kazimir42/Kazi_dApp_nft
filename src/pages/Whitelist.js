@@ -61,7 +61,7 @@ function Whitelist() {
                 <p className="text-4xl font-bold">{count}/100</p>
                 <p>already whitelisted</p>
             </div>
-            <button className="mx-auto px-6 py-2  block bg-amber-600 text-lg text-white" onClick={beWhitelist}>Be whitelist</button>
+            <button className="mx-auto px-6 py-2  block bg-primary text-lg text-white" onClick={beWhitelist}>Be whitelist</button>
         </div>
     )
 }

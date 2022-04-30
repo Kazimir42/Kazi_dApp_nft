@@ -18,10 +18,10 @@ function Header() {
                 <div className="flex flex-row items-center gap-8">
                     <div className="flex flex-row items-center gap-4">
                         <Link to="/">
-                            <FontAwesomeIcon className="text-white h-8" icon="fa-brands fa-twitter" />
+                            <FontAwesomeIcon className="text-white h-8 duration-200 hover:mb-2" icon="fa-brands fa-twitter" />
                         </Link>
                         <Link to="/">
-                            <FontAwesomeIcon className="text-white h-8" icon="fa-brands fa-discord" />
+                            <FontAwesomeIcon className="text-white h-8 duration-200 hover:mb-2" icon="fa-brands fa-discord" />
                         </Link>
                     </div>
                     <StepButton />

@@ -4,6 +4,7 @@ import StepButton from "../components/StepButton";
 import ExampleNtf from "../components/ExampleNtf";
 import TeamContainer from "../components/TeamContainer";
 import Member from "../components/Member";
+import ButtonExternal from "../components/ButtonExternal";
 
 
 function Home() {
@@ -25,23 +26,27 @@ function Home() {
     return (
         <div className="">
 
-            <section id="first" className="min-h-screen" style={{backgroundImage: 'url(./images/background.jpg)'}}>
+            <section id="home" className="min-h-screen" style={{backgroundImage: 'url(./images/background.jpg)'}}>
                 <div className="container mx-auto pt-64">
-                    <h1 className="text-6xl font-black text-white text-center uppercase mb-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
-                    <StepButton position="center"/>
+                    <h1 className="text-6xl font-black text-white text-center uppercase mb-16 leading-tight px-32">Lorem ipsum dolor sit amet cursus, consectetur adipiscing elit.</h1>
+                    <StepButton />
                 </div>
             </section>
 
-            <section id="second" className="bg-neutral-900">
-                <div className="container mx-auto grid grid-cols-2 py-32 gap-4">
-                    <div>
-                        <h2 className="text-5xl font-black text-white uppercase mb-8">Lorem ipsum dolor sit amet.</h2>
+            <section id="intro" className="bg-background">
+                <div className="container mx-auto grid grid-cols-3 pb-20 pt-32 gap-4">
+                    <div className="col-span-2 my-auto">
+                        <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">A big <span className="text-primary">community</span></h2>
 
-                        <div className="text-white text-lg font-light">
+                        <div className="text-white text-xl mb-8">
 
                             <p className="mb-4">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac rutrum orci. Maecenas id
-                                nibh pretium, cursus ligula a, sollicitudin est. Quisque facilisis egestas ex, a varius
+                                nibh pretium, cursus ligula a, sollicitudin est.
+                            </p>
+
+                            <p className="mb-4">
+                                Quisque facilisis egestas ex, a varius
                                 justo efficitur ut. Sed vehicula eleifend mauris, sed facilisis velit imperdiet ac. Ut
                                 venenatis neque vel mi ornare rhoncus. Integer id sapien est. Duis elementum justo quis erat
                                 molestie efficitur.
@@ -50,36 +55,98 @@ function Home() {
                             <p>
                                 Suspendisse sit amet nibh posuere enim accumsan fringilla. Morbi a lectus tristique, sodales
                                 mi ultricies, vestibulum dolor. Donec ipsum sem, laoreet eu sagittis eget, pretium et erat.
-                                Sed placerat tellus id pulvinar rhoncus. Ut neque metus, finibus eget facilisis quis,
-                                ullamcorper sed velit. Donec porttitor consectetur faucibus. Curabitur id massa non erat
-                                pharetra pulvinar vel eget lorem. Sed orci dui, faucibus at vulputate ut, tempor ut est.
+                                Sed placerat tellus id pulvinar rhoncus.
+                            </p>
+
+                        </div>
+                        <ButtonExternal title="Discord" where="https://google.fr/" />
+                    </div>
+                    <div>
+                        <ExampleNtf image={3} class="ml-auto" />
+                    </div>
+                </div>
+                <div className="container mx-auto grid grid-cols-3 pt-20 pb-32 gap-4">
+                    <div>
+                        <ExampleNtf image={3} class="mr-auto" />
+                    </div>
+                    <div className="col-span-2 my-auto">
+                        <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">Why should I buy <span className="text-primary">Character</span> ?</h2>
+
+                        <div className="text-white text-xl ">
+
+                            <p className="mb-4">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac rutrum orci. Maecenas id
+                                nibh pretium, cursus ligula a, sollicitudin est.
+                            </p>
+
+                            <p className="mb-4">
+                                Quisque facilisis egestas ex, a varius
+                                justo efficitur ut. Sed vehicula eleifend mauris, sed facilisis velit imperdiet ac. Ut
+                                venenatis neque vel mi ornare rhoncus. Integer id sapien est. Duis elementum justo quis erat
+                                molestie efficitur.
+                            </p>
+
+                            <p>
+                                Suspendisse sit amet nibh posuere enim accumsan fringilla. Morbi a lectus tristique, sodales
+                                mi ultricies, vestibulum dolor. Donec ipsum sem, laoreet eu sagittis eget, pretium et erat.
+                                Sed placerat tellus id pulvinar rhoncus.
                             </p>
 
                         </div>
                     </div>
-                    <div>
-                        <ExampleNtf image={3} />
+                </div>
+            </section>
+
+            <section id="collection">
+                <ExampleNtfContainer/>
+            </section>
+
+            <section id="third" className="bg-background">
+                <div className="container mx-auto py-32 gap-4">
+                    <h2 className="text-5xl font-black text-white text-center uppercase mb-8">Road<span className="text-primary">map</span></h2>
+                    <div className="mt-32">
+                        <p className="text-xl font-bold text-white text-center">February - March 22’</p>
+                        <h3 className="text-4xl font-black text-primary text-center">Phase 1 - The title</h3>
+                        <p className="text-white text-center text-xl mt-8">
+                            Lorem ipsum dolor sit amet.<br />
+                            Consectetur adipiscing elit.<br />
+                            Donec ac rutrum orci.<br />
+                            Maecenas id nibh pretium.
+                        </p>
+                    </div>
+                    <div className="mt-32">
+                        <p className="text-xl font-bold text-white text-center">February - March 22’</p>
+                        <h3 className="text-4xl font-black text-primary text-center">Phase 2 - The title</h3>
+                        <p className="text-white text-center text-xl mt-8">
+                            Lorem ipsum dolor sit amet.<br />
+                            Consectetur adipiscing elit.<br />
+                            Donec ac rutrum orci.<br />
+                            Maecenas id nibh pretium.
+                        </p>
+                    </div>
+                    <div className="mt-32">
+                        <p className="text-xl font-bold text-white text-center">February - March 22’</p>
+                        <h3 className="text-4xl font-black text-primary text-center">Phase 3 - The title</h3>
+                        <p className="text-white text-center text-xl mt-8">
+                            Lorem ipsum dolor sit amet.<br />
+                            Consectetur adipiscing elit.<br />
+                            Donec ac rutrum orci.<br />
+                            Maecenas id nibh pretium.
+                        </p>
                     </div>
                 </div>
             </section>
 
-            <section id="third" className="bg-neutral-900">
-                <div className="container mx-auto py-32 gap-4">
-                    <h2 className="text-5xl font-black text-white text-center uppercase mb-8">Roadmap</h2>
-                </div>
-            </section>
+            <section id="separator" className="h-96" style={{backgroundImage: 'url(./images/background.jpg)'}}> </section>
 
-            <section id="fourth" className="bg-neutral-900">
+            <section id="fourth" className="bg-background">
                 <div className="container mx-auto py-32 gap-4">
-                    <h2 className="text-5xl font-black text-white text-center uppercase mb-16">Team</h2>
+                    <h2 className="text-5xl font-black text-white text-center uppercase mb-16">The <span className="text-primary">Team</span></h2>
                     <TeamContainer />
-
                 </div>
             </section>
 
-            <section id="fifth">
-                <ExampleNtfContainer/>
-            </section>
+
 
         </div>
     )
