@@ -2,9 +2,9 @@ import {useEffect, useState} from "react";
 import {ethers} from 'ethers';
 import ButtonExternal from "../components/ButtonExternal";
 import { db } from "../firebase"
-import {collection, query, where, getDocs } from "firebase/firestore";
+import {collection, query, where, getDocs, setDoc, doc } from "firebase/firestore";
+import { v4 as uuidv4 } from 'uuid';
 
-const whitelistQuery = query(collection(db, 'whitelist'))
 
 function Whitelist() {
     const [count, setCount] = useState(0)
@@ -20,12 +20,10 @@ function Whitelist() {
 
     //get number of user whitelisted in firebase db
     async function getCount() {
-        await getDocs(whitelistQuery).then(function (querySnapshot) {
+        await getDocs(query(collection(db, 'whitelist'))).then(function (querySnapshot) {
             setCount(querySnapshot.size);
         });
     }
-
-
 
     async function beWhitelist()
     {
@@ -39,17 +37,43 @@ function Whitelist() {
 
                 let accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
                 setAccounts(accounts);
-                console.log(accounts);
+
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 //get the eth balance in WEI of connected account
+
                 const balance = await provider.getBalance(accounts[0]);
+
                 // balance WEI -> ETH
                 const balanceInEth = ethers.utils.formatEther(balance)
                 setBalance(balanceInEth);
 
-                //FETCH POST TO DB AND IF NOT ALREADY IN ADD OR RETURN 'already in whitelist'
-                setCount(Number(count) + 1)
-                alert('u are now whitelist')
+                //CHECK IF ADDRESS ALREADY IN DB
+                await getDocs(query(collection(db, 'whitelist'), where('address', '==', accounts[0]))).then(async function (querySnapshot) {
+
+                    if (querySnapshot.size === 0) {
+                        if (balanceInEth >= 0) //set if u want a min price to be whitelisted
+                        {
+                            //create an object to pass
+                            const docData = {
+                                address: accounts[0],
+                                id: uuidv4(),
+                                balance: balanceInEth
+                            };
+                            await setDoc(doc(db, "whitelist", docData.id), docData);
+
+
+
+                            setCount(Number(count) + 1)
+                            alert('u are now whitelist')
+                        } else {
+                            alert('not enougth ETH')
+                        }
+                    } else {
+                        alert('already whitelisted')
+                    }
+                });
+
+                query(collection(db, 'whitelist'), where('address', '==', accounts))
 
             } else {
                 setError('Wrong network')
