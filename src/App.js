@@ -17,7 +17,7 @@ import {StepProvider} from "./context/StepContext";
 
 function App() {
     const [currentUser, setCurrentUser] = useState(null)
-    const [currentStep, setCurrentStep] = useState('null')
+    const [currentStep, setCurrentStep] = useState(null)
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
