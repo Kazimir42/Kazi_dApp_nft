@@ -5,8 +5,8 @@ import Whitelist from "./pages/Whitelist";
 import Admin from "./pages/Admin";
 import Header from "./partials/Header";
 import Home from "./pages/Home";
-import Presale from "./pages/Presale";
-import Sale from "./pages/Sale";
+import Premint from "./pages/Premint";
+import Mint from "./pages/Mint";
 import Login from "./pages/Login";
 import {AuthProvider} from "./context/AuthContext";
 import {auth, db} from './firebase'
@@ -34,14 +34,8 @@ function App() {
         response = response.data();
 
         for (const [key, value] of Object.entries(response)) {
-            if (value === true){
-                setCurrentStep(key)
-            }
+            if (value) setCurrentStep(key);
         }
-
-
-
-
     }
 
     return (
@@ -53,8 +47,8 @@ function App() {
                         <Routes>
                             <Route path="/" exact element={<Home />}/>
                             <Route path="/whitelist" exact element={<Whitelist />}/>
-                            <Route path="/presale" exact element={<Presale />}/>
-                            <Route path="/sale" exact element={<Sale />}/>
+                            <Route path="/premint" exact element={<Premint />}/>
+                            <Route path="/mint" exact element={<Mint />}/>
                             <Route path="/login" element={<Login />} />
                             <Route element={<PrivateRoute currentUser={currentUser} />}>
                                 <Route path="/admin" element={<Admin />} />
