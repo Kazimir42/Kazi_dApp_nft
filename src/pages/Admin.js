@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
 import {ethers} from 'ethers';
 import Contract from '../contracts/Character.sol/Character.json'
-import {Route, Redirect} from 'react-router-dom'
 import {useAuthValue} from '../context/AuthContext'
 import ButtonExternal from "../components/ButtonExternal";
-import ButtonAdmin from "../components/ButtonAdmin";
 import ContractUpdate from "../components/ContractUpdate";
 import ContractUpdateButton from "../components/ContractUpdateButton";
+import { db } from "../firebase"
+import {collection, query, where, getDocs, setDoc, doc, updateDoc } from "firebase/firestore";
 
 const {MerkleTree} = require("merkletreejs");
 const keccak256 = require("keccak256");
@@ -125,15 +125,18 @@ function Admin() {
         }
     }
 
-
     async function pausedContract(boolean) {
         try {
-            contractForUpdate.setPaused(boolean)
+            contractForUpdate.setPaused(boolean).catch(function (e) {
+                e.data ?
+                    setError(e.data.message)//get the contract error
+                    :
+                    setError(e.message) //get the MM error
+            })
         } catch (error) {
             setError(error)
         }
     }
-
 
     function uploadFile(event) {
         setTokensFile(event.target.files[0]);
@@ -156,7 +159,12 @@ function Admin() {
         const root = tree.getHexRoot();
 
         try {
-            contractForUpdate.changeMerkleRoot(root)
+            contractForUpdate.changeMerkleRoot(root).catch(function (e) {
+                e.data ?
+                    setError(e.data.message)//get the contract error
+                    :
+                    setError(e.message) //get the MM error
+            })
         } catch (error) {
             setError(error)
         }
@@ -166,22 +174,38 @@ function Admin() {
     async function updateMaxMint() {
         let newValue = document.getElementById('inputMaxMint').value
         try {
-            contractForUpdate.changeMaxMintAllowed(newValue)
+            contractForUpdate.changeMaxMintAllowed(newValue).catch(function (e) {
+                e.data ?
+                    setError(e.data.message)//get the contract error
+                    :
+                    setError(e.message) //get the MM error
+            })
         } catch (error) {
             setError(error)
         }
     }
 
     async function updatePrice(type) {
-        alert(type)
         try {
             const decimals = 18;
             if (type === 'presale') {//PRESALE
                 let newValue = document.getElementById('inputPricePresale').value
                 contractForUpdate.changePricePresale(ethers.utils.parseUnits(newValue, decimals)) //need that else error with big number
+                    .catch(function (e) {
+                        e.data ?
+                            setError(e.data.message)//get the contract error
+                            :
+                            setError(e.message) //get the MM error
+                    })
             } else if (type === 'sale') {//SALE
                 let newValue = document.getElementById('inputPriceSale').value
                 contractForUpdate.changePriceSale(ethers.utils.parseUnits(newValue, decimals)) //need that else error with big number
+                    .catch(function (e) {
+                    e.data ?
+                        setError(e.data.message)//get the contract error
+                        :
+                        setError(e.message) //get the MM error
+                })
             }
         } catch (error) {
             setError(error)
@@ -193,10 +217,20 @@ function Admin() {
         try {
             if (type === 'baseURI') { //URI of the NFTs when revealed
                 let newValue = document.getElementById('inputBaseUri').value
-                contractForUpdate.setBaseUri(newValue)
+                contractForUpdate.setBaseUri(newValue).catch(function (e) {
+                    e.data ?
+                        setError(e.data.message)//get the contract error
+                        :
+                        setError(e.message) //get the MM error
+                })
             } else if (type === 'notRevealedURI') { //URI of the NFTs when not revealed
                 let newValue = document.getElementById('inputNotRevealedUri').value
-                contractForUpdate.setNotRevealURI(newValue)
+                contractForUpdate.setNotRevealURI(newValue).catch(function (e) {
+                    e.data ?
+                        setError(e.data.message)//get the contract error
+                        :
+                        setError(e.message) //get the MM error
+                })
             }
         } catch (error) {
             setError(error)
@@ -207,7 +241,12 @@ function Admin() {
         let newValue = document.getElementById('inputBaseExtension').value
         try {
             //update contract
-            contractForUpdate.setBaseExtension(newValue)
+            contractForUpdate.setBaseExtension(newValue).catch(function (e) {
+                e.data ?
+                    setError(e.data.message)//get the contract error
+                    :
+                    setError(e.message) //get the MM error
+            })
         } catch (error) {
             setError(error)
         }
@@ -217,7 +256,12 @@ function Admin() {
         if (typeof window.ethereum !== 'undefined') {
             try {
                 //update contract
-                contractForUpdate.reveal()
+                contractForUpdate.reveal().catch(function (e) {
+                    e.data ?
+                        setError(e.data.message)//get the contract error
+                        :
+                        setError(e.message) //get the MM error
+                })
             } catch (error) {
                 setError(error)
             }
@@ -227,7 +271,21 @@ function Admin() {
     async function setUpPresale() {
         try {
             //update contract
-            contractForUpdate.setUpPresale()
+            contractForUpdate.setUpPresale().catch(function (e) {
+
+                e.data ?
+                    setError(e.data.message)//get the contract error
+                    :
+                    setError(e.message) //get the MM error
+            })
+
+            //update DB
+            let newCollection = {
+                Before: false,
+                Presale: true,
+            }
+            await updateDoc(doc(db, "steps", "eyZMZF6NREwvHwMLsDJb"), newCollection);
+
         } catch (error) {
             setError(error)
         }
@@ -240,9 +298,16 @@ function Admin() {
                 e.data ?
                     setError(e.data.message)//get the contract error
                     :
-                    setError(e) //get the MM error
-
+                    setError(e.message) //get the MM error
             })
+
+            //update DB
+            let newCollection = {
+                Presale: false,
+                Sale: true,
+            }
+            await updateDoc(doc(db, "steps", "eyZMZF6NREwvHwMLsDJb"), newCollection);
+
         } catch (error) {
             //other error
             setError(error)
@@ -254,14 +319,18 @@ function Admin() {
 
         try {
             //update contract
-            contractForUpdate.gift(addressToGift)
+            contractForUpdate.gift(addressToGift).catch(function (e) {
+                e.data ?
+                    setError(e.data.message)//get the contract error
+                    :
+                    setError(e.message) //get the MM error
+            })
         } catch (error) {
             setError(error)
         }
     }
 
-    function StepOnString()
-    {
+    function StepOnString() {
         switch (currentStep)
         {
             case 0:
@@ -347,7 +416,7 @@ function Admin() {
 
                         {
                             error ?
-                                <div className="my-4 bg-red-100">
+                                <div className="my-4 bg-dark-background text-red-600 p-4 text-xl rounded-sm border border-red-600">
                                     {error}
                                 </div>
                                 :
