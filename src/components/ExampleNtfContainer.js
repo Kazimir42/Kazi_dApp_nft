@@ -3,12 +3,11 @@ import ExampleNtf from "./ExampleNtf";
 
 function ExampleNtfContainer() {
     return (
-        <div className="border border-black grid grid-cols-10">
-            <ExampleNtf image={4} />
-            <ExampleNtf image={2} />
-            <ExampleNtf image={98} />
-            <ExampleNtf image={1} />
-            <ExampleNtf image={99} />
+        <div className="grid grid-cols-8 gap-8 bg-background">
+            <ExampleNtf image="4.png" class="w-full" />
+            <ExampleNtf image="2.png" class="w-full" />
+            <ExampleNtf image="98.png" class="w-full" />
+            <ExampleNtf image="1.png" class="w-full" />
         </div>
     )
 }export default ExampleNtfContainer;
