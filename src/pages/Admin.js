@@ -3,6 +3,10 @@ import {ethers} from 'ethers';
 import Contract from '../contracts/Character.sol/Character.json'
 import {Route, Redirect} from 'react-router-dom'
 import {useAuthValue} from '../context/AuthContext'
+import ButtonExternal from "../components/ButtonExternal";
+import ButtonAdmin from "../components/ButtonAdmin";
+import ContractUpdate from "../components/ContractUpdate";
+import ContractUpdateButton from "../components/ContractUpdateButton";
 
 const {MerkleTree} = require("merkletreejs");
 const keccak256 = require("keccak256");
@@ -169,7 +173,7 @@ function Admin() {
     }
 
     async function updatePrice(type) {
-
+        alert(type)
         try {
             const decimals = 18;
             if (type === 'presale') {//PRESALE
@@ -247,6 +251,7 @@ function Admin() {
 
     async function makeGift() {
         let addressToGift = document.getElementById('inputGift').value
+
         try {
             //update contract
             contractForUpdate.gift(addressToGift)
@@ -275,132 +280,70 @@ function Admin() {
     function NiceAddress() {
         return(
             <div>
-                <div className="mt-10">
-                    <h2 className="text-2xl font-bold underline">Contract Infos</h2>
-                    <p>Contract address : {address}</p>
-                    <p>Contract paused : {paused ? 'true' : 'false'}</p>
-                    <p>Whitelist Merkle root : {merkleRoot}</p>
-                    <p>NTFs number : {totalNft}</p>
-                    <p>Max mint : {maxMint}</p>
-                    <p>Current step : <StepOnString /></p>
-                    <p>Price presale : {pricePresale} ETH</p>
-                    <p>Price sale : {priceSale} ETH</p>
-                    <p>baseURI : {baseURI}</p>
-                    <p>notRevealedURI : {notRevealedURI}</p>
-                    <p>baseExtension : {baseExtension}</p>
-                    <p>nft revealed : {revealed ? 'true' : 'false'}</p>
+                <div className="py-10">
+                    <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">Contract <span className="text-primary">Infos</span></h2>
+                    <ul className="text-xl text-white">
+                        <li><span className="underline font-bold">Contract paused :</span> {paused ? 'true' : 'false'}</li>
+                        <li><span className="underline font-bold">Contract address :</span> {address}</li>
+                        <li><span className="underline font-bold">Whitelist Merkle root :</span> {merkleRoot}</li>
+                        <li><span className="underline font-bold">NTFs number :</span> {totalNft}</li>
+                        <li><span className="underline font-bold">Max mint :</span> {maxMint}</li>
+                        <li><span className="underline font-bold">Current step :</span> <StepOnString /></li>
+                        <li><span className="underline font-bold">Price presale :</span> {pricePresale} ETH</li>
+                        <li><span className="underline font-bold">Price sale :</span> {priceSale} ETH</li>
+                        <li><span className="underline font-bold">BaseURI :</span> {baseURI}</li>
+                        <li><span className="underline font-bold">NotRevealedURI :</span> {notRevealedURI}</li>
+                        <li><span className="underline font-bold">BaseExtension :</span> {baseExtension}</li>
+                        <li><span className="underline font-bold">Nft revealed :</span> {revealed ? 'true' : 'false'}</li>
+                    </ul>
                 </div>
 
-                <div className="mt-10 grid grid-cols-12">
+                <div className="py-10 grid grid-cols-12 gap-16">
                     <div className="col-span-6">
-                        <h2 className="text-2xl font-bold underline">Update contract data</h2>
+                        <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">Update contract <span className="text-primary">data</span></h2>
 
-                        <div className="my-4">
-                            <p>Whitelist Merkle root :</p>
-                            <input type="file" name="file" onChange={uploadFile}/>
+                        <ContractUpdate title="Whitelist Merkle root :" description="Lorem ipsum dolor sit amet." type="file" inputClass="text-white" buttonTitle="Validate" onChange={uploadFile} onClick={newMerkleRoot} />
 
-                            <button className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500"
-                                    onClick={newMerkleRoot}>valider
-                            </button>
-                        </div>
-                        <div className="my-4">
-                            <p>Max mint allowed :</p>
-                            <input id="inputMaxMint" type="number" className="border border-black w-32 mr-2 p-1"
-                                   placeholder="number"/>
-                            <button className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500"
-                                    onClick={updateMaxMint}>valider
-                            </button>
-                        </div>
-                        <div className="my-4">
-                            <p>Price presale :</p>
-                            <input id="inputPricePresale" type="number" className="border border-black w-32 mr-2 p-1"
-                                   placeholder="in ETH"/>
-                            <button className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500"
-                                    onClick={() => updatePrice('presale')}>valider
-                            </button>
-                        </div>
-                        <div className="my-4">
-                            <p>Price sale :</p>
-                            <input id="inputPriceSale" type="number" className="border border-black w-32 mr-2 p-1"
-                                   placeholder="in ETH"/>
-                            <button className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500"
-                                    onClick={() => updatePrice('sale')}>valider
-                            </button>
-                        </div>
-                        <div className="my-4">
-                            <p>baseURI :</p>
-                            <input id="inputBaseUri" type="text" className="border border-black w-32 mr-2 p-1"
-                                   placeholder="ipfs://URI/"/>
-                            <button className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500"
-                                    onClick={() => updateUri('baseURI')}>valider
-                            </button>
-                        </div>
-                        <div className="my-4">
-                            <p>notRevealedURI :</p>
-                            <input id="inputNotRevealedUri" type="text" className="border border-black w-32 mr-2 p-1"
-                                   placeholder="ipfs://URI/"/>
-                            <button className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500"
-                                    onClick={() => updateUri('notRevealedURI')}>valider
-                            </button>
-                        </div>
-                        <div className="my-4">
-                            <p>baseExtension :</p>
-                            <input id="inputBaseExtension" type="text" className="border border-black w-32 mr-2 p-1"
-                                   placeholder=".json"/>
-                            <button className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500"
-                                    onClick={updateExtension}>valider
-                            </button>
-                        </div>
+                        <ContractUpdate title="Max mint allowed :" description="Lorem ipsum dolor sit amet." id="inputMaxMint" type="number" placeholder="number" buttonTitle="Validate" onClick={updateMaxMint}/>
+
+                        <ContractUpdate title="Price presale :" description="Lorem ipsum dolor sit amet." id="inputPricePresale" type="number" placeholder="in ETH" buttonTitle="Validate" onClick={() => updatePrice('presale')}/>
+
+                        <ContractUpdate title="Price sale :" description="Lorem ipsum dolor sit amet." id="inputPriceSale" type="number" placeholder="in ETH" buttonTitle="Validate" onClick={() => updatePrice('sale')}/>
+
+                        <ContractUpdate title="baseURI :" description="Lorem ipsum dolor sit amet." id="inputBaseUri" type="text" placeholder="ipfs://URI/" buttonTitle="Validate" onClick={() => updateUri('baseURI')}/>
+
+                        <ContractUpdate title="notRevealedURI :" description="Lorem ipsum dolor sit amet." id="inputNotRevealedUri" type="text" placeholder="ipfs://URI/" buttonTitle="Validate" onClick={() => updateUri('notRevealedURI')}/>
+
+                        <ContractUpdate title="baseExtension :" description="Lorem ipsum dolor sit amet." id="inputBaseExtension" type="text" placeholder=".json" buttonTitle="Validate" onClick={updateExtension}/>
+
                     </div>
+
+
+
                     <div className="col-span-6">
-                        <h2 className="text-2xl font-bold underline">Act on contract</h2>
-                        <div className="my-4">
-                            <p>Contract status:</p>
+                        <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">Act on <span className="text-primary">contract</span></h2>
 
-                            {
-                                paused
-                                    ?
-                                    <button
-                                        className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500"
-                                        onClick={() => pausedContract(false)}>Unpause</button>
-                                    :
-                                    <button
-                                        className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500"
-                                        onClick={() => pausedContract(true)}>Pause</button>
-                            }
-                        </div>
+                        {
+                            paused
+                                ?
+                                <ContractUpdateButton title="Contract status :"  description="already paused" buttonTitle="Unpause" onClick={() => pausedContract(false)}/>
+                                :
+                                <ContractUpdateButton title="Contract status :"  description="Lorem ipsum dolor sit amet." buttonTitle="Pause" onClick={() => pausedContract(true)}/>
+                        }
 
-                        <div className="my-4">
-                            <p>Contract step:</p>
-                            <button className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500"
-                                    onClick={setUpPresale}>start presale
-                            </button>
-                            <button
-                                className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500 ml-2"
-                                onClick={setUpSale}>start public sale
-                            </button>
-                        </div>
-                        <div className="my-4">
-                            <p>Reveal nft ?</p>
-                            {
-                                paused
-                                    ?
-                                    <p>already revealed</p>
-                                    :
-                                    <button
-                                        className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500"
-                                        onClick={reveal}>reveal</button>
-                            }
-                        </div>
-                        <div className="my-4">
-                            <p>make a gift (1 nft) :</p>
-                            <input id="inputGift" type="text" className="border border-black w-32 mr-2 p-1"
-                                   placeholder="address"/>
-                            <button className="bg-blue-500 text-white px-2 hover:bg-blue-600 p-1 border border-blue-500"
-                                    onClick={makeGift}>send
-                            </button>
-                        </div>
 
+                        <ContractUpdateButton title="Contract step :"  description="Change step of contract" buttonTitle="Start presale" onClick={setUpPresale} buttonTitle2="Start public sale" onClick2={setUpSale} />
+
+
+                        {
+                            revealed
+                                ?
+                                <ContractUpdateButton title="Reveal nft ?"  description="already revealed" />
+                                :
+                                <ContractUpdateButton title="Reveal nft ?"  description="Lorem ipsum dolor sit amet." buttonTitle="Reveal" onClick={reveal}/>
+                        }
+
+                        <ContractUpdate title="Make a gift (1 nft) :" description="Lorem ipsum dolor sit amet." id="inputGift" type="text" placeholder="address" buttonTitle="Send" onClick={makeGift} />
 
                         {
                             error ?
@@ -410,7 +353,6 @@ function Admin() {
                                 :
                                 <br/>
                         }
-
 
                     </div>
                 </div>
@@ -423,10 +365,10 @@ function Admin() {
     function BadAddress() {
         return(
             <div>
-                <div className="mt-10 text-center">
-                    Check your connected address and the network
+                <div className="text-primary text-2xl text-center mb-8 font-bold">
+                    Check your connected address and network
                 </div>
-
+                <ButtonExternal title="Connect" onClick={getData} class="mx-auto" />
             </div>
         )
     }
@@ -435,15 +377,17 @@ function Admin() {
         if (success) {
             return <NiceAddress/>;
         }
-        return <BadAddress/>;
+        return <BadAddress />;
     }
 
     return (
-
-        <div className="container mx-auto mt-10">
-            <h1 className="text-6xl font-black text-center mb-8 mt-6">Admin dashboard</h1>
-
-            <Render />
+        <div>
+            <section id="" className="min-h-screen bg-background">
+                <div className="container mx-auto pt-32">
+                    <h1 className="text-6xl font-black text-white text-center uppercase mb-16 leading-tight px-32">Admin dashboard</h1>
+                    <Render />
+                </div>
+            </section>
         </div>
     );
 

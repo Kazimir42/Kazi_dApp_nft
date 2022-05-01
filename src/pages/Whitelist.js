@@ -61,27 +61,22 @@ function Whitelist() {
                             };
                             await setDoc(doc(db, "whitelist", docData.id), docData);
 
-
-
                             setCount(Number(count) + 1)
-                            alert('u are now whitelist')
+                            setSuccess('You are now whitelist')
+                            setError('');
                         } else {
-                            alert('not enougth ETH')
+                            setError('Not enougth ETH')
                         }
                     } else {
-                        alert('already whitelisted')
+                        setError('Already whitelisted')
                     }
                 });
 
-                query(collection(db, 'whitelist'), where('address', '==', accounts))
-
             } else {
                 setError('Wrong network')
-                alert('failed cuz : Wrong network')
             }
         } else {
             setError('Not connected')
-            alert('failed cuz : Not connected')
         }
     }
 
@@ -97,6 +92,11 @@ function Whitelist() {
                             <p className="text-4xl font-black"><span className="text-primary">{count}</span>/100*</p>
                             <p className="text-xl ">already whitelisted</p>
                         </div>
+
+                        <p className="text-primary text-2xl text-center mb-8 font-bold">
+                            {error}
+                            {success}
+                        </p>
                         <ButtonExternal title="Be Whitelist" onClick={beWhitelist} class="mx-auto" />
                         <p className="text-white text-sm">*working but no scalable / care i think an user can read all contract in db</p>
                     </div>
