@@ -1,9 +1,8 @@
-import FaqElement from "./FaqElement";
 import Card from "./Card";
 
 function FeaturesContainer() {
     return (
-        <div className="container mx-auto py-20 gap-4">
+        <div className="container mx-auto py-16 gap-4">
             <h2 className="text-5xl font-black text-big-content-color text-center uppercase mb-16">THE <span className="text-primary">FEATURES</span></h2>
 
             <div className="flex flex-row gap-8">

@@ -78,17 +78,15 @@ function Home() {
             </section>
 
 
-            <section id="community" className="bg-background">
+            <section id="community" className="bg-background" >
 
                 <div className="container mx-auto grid grid-cols-3 pt-32 pb-32 gap-4">
-                    <div>
-                        <ExampleNtf image='3.png' class="mr-auto"/>
-                    </div>
+                    <ExampleNtf image='3.png' class="mr-auto col-span-1"/>
                     <div className="col-span-2 my-auto">
                         <h2 className="text-5xl font-black text-big-content-color leading-tight uppercase mb-12">A large <span
                             className="text-primary">Community</span></h2>
 
-                        <div className="text-content-color text-xl ">
+                        <div className="text-content-color text-xl">
 
                             <p className="mb-4">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac rutrum orci. Maecenas
@@ -117,7 +115,7 @@ function Home() {
                 </div>
             </section>
 
-            <section id="features" className="bg-background">
+            <section id="features" className="bg-background" style={{backgroundImage: "url(/svg/tic-tac-toe.svg)"}}>
                 <FeaturesContainer />
             </section>
 
@@ -131,7 +129,7 @@ function Home() {
                 <TeamContainer/>
             </section>
 
-            <section id="faq" className="bg-background">
+            <section id="faq" className="bg-background" style={{backgroundImage: "url(/svg/tic-tac-toe.svg)"}}>
                 <FaqContainer />
             </section>
 
