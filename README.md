@@ -1,4 +1,4 @@
-#Hello,
+# Hello,
 
 This is my first React dApp serverless to mint NFT (jpeg projects) on ETH, I'm beginner in react
 
@@ -6,7 +6,7 @@ The project got boring for me
 
 I use firebase for Authentication and store datas,
 
-##Some infos
+## Some infos
 
 - I used react-app-rewired cuz i need buffer to generate a merkle tree when we update the whitelist on contract
 - Working with firebase but u can create ur own API and auth system
