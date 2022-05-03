@@ -50,7 +50,7 @@ example :
 
 My firebase rules (first time, do it better plz)
 
-![img.png](img.png)
+![img_3.png](./public/rules.png)
 
 # To do :
 
@@ -63,3 +63,4 @@ My firebase rules (first time, do it better plz)
 - Limite by IPs when writing in whitelist collection
 - The are no "COUNT" in firebase, so when an user load whitelist page we count one by one all address whitelisted, its actually not scalable , so find a better way than count one by one whitelisted addresses
 - Refactor somes functions
+- Error/success messages
