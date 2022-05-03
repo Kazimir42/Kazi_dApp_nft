@@ -2,6 +2,8 @@ import ExampleNtfContainer from "../components/ExampleNtfContainer";
 import {useEffect, useState} from "react";
 import {ethers} from 'ethers';
 import ButtonExternal from "../components/ButtonExternal";
+import {address} from '../contract'
+import Contract from "../contracts/Character.sol/Character.json"; //address of contract
 
 function Mint() {
     const [count, setCount] = useState(0)
@@ -9,6 +11,32 @@ function Mint() {
     const [balance, setBalance] = useState();
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        getData();
+    }, [])
+
+
+    async function getData() {
+        if (typeof window.ethereum !== 'undefined') {
+            let chainId = await window.ethereum.request({method: 'eth_chainId'})
+            if (chainId === "0x1" || chainId === "0x3" || chainId === "0x4" || chainId === "0x5" || chainId === "0x2a" || chainId === "0x539") {
+                let accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
+                setAccounts(accounts);
+
+                //provider and signer need to watch / update contract data
+                const tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+
+                const tempWatchContract = new ethers.Contract(address, Contract.abi, tempProvider);
+
+                let totalCount = await tempWatchContract.totalSupply()
+
+                setCount(parseFloat(totalCount).toFixed(0))
+
+
+            }
+        }
+    }
 
     async function mint() {
         //get account
@@ -19,10 +47,35 @@ function Mint() {
             //CHANGE BY THE CHAINID OF MAINNET IN PRODUCTION
             if (chainId === "0x1" || chainId === "0x3" || chainId === "0x4" || chainId === "0x5" || chainId === "0x2a" || chainId === "0x539") {
 
+                //user
                 let accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer = provider.getSigner();
+
+                //contract when read
+                const contractRead = new ethers.Contract(address, Contract.abi, provider);
+
+                //get the price
+                const priceSale = await contractRead.priceSale();
+
+                //contract when update
+                const contractUpdate = new ethers.Contract(address, Contract.abi, signer);
 
 
+                try {
+                    let overrides = {
+                        from: accounts[0],
+                        value: priceSale
+                    }
 
+                    //call function presale mint of contract
+                    const transaction = await contractUpdate.saleMint(1)
+                    await transaction.wait();
+
+                    getData();
+                }catch(error) {
+                    console.log(error)
+                }
 
 
 

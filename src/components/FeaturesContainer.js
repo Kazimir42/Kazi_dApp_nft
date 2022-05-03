@@ -10,7 +10,6 @@ function FeaturesContainer() {
                 <Card image="images/background.jpg" title="One feature" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget ullamcorper nibh. Aliquam id eleifend nulla." />
                 <Card image="images/background.jpg" title="One feature" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget ullamcorper nibh. Aliquam id eleifend nulla." />
             </div>
-
         </div>
     )
 }export default FeaturesContainer;

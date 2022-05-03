@@ -2,6 +2,8 @@ import ExampleNtfContainer from "../components/ExampleNtfContainer";
 import {useEffect, useState} from "react";
 import {ethers} from 'ethers';
 import ButtonExternal from "../components/ButtonExternal";
+import {address} from '../contract' //address of contract
+import Contract from '../contracts/Character.sol/Character.json'
 
 function Premint() {
     const [count, setCount] = useState(0)
@@ -19,11 +21,37 @@ function Premint() {
             //CHANGE BY THE CHAINID OF MAINNET IN PRODUCTION
             if (chainId === "0x1" || chainId === "0x3" || chainId === "0x4" || chainId === "0x5" || chainId === "0x2a" || chainId === "0x539") {
 
+                //user
                 let accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer = provider.getSigner();
+
+                //contract when read
+                const contractRead = new ethers.Contract(address, Contract.abi, provider);
+
+                //get the price
+                const pricePresale = await contractRead.pricePresale();
+
+                //contract when update
+                const contractUpdate = new ethers.Contract(address, Contract.abi, signer);
 
 
+                try {
+                    let overrides = {
+                        from: accounts[0],
+                        value: pricePresale
+                    }
 
+                    /**
+                     * I NOT REALLY UNDERSTAND THE MERKLE TREE AND THE PROOF FOR THE MOMENT / SO NOT WORKING YET
+                     */
 
+                    //call function presale mint of contract
+                    const transaction = await contractUpdate.presaleMint(accounts[0], 1, overrides)
+                    await transaction.wait();
+                }catch(error) {
+                    console.log(error)
+                }
 
 
             } else {

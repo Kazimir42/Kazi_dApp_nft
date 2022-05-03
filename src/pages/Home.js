@@ -12,18 +12,7 @@ import FeaturesContainer from "../components/FeaturesContainer";
 function Home() {
 
     useEffect(() => {
-        getData();
     }, [])
-
-    async function getData() {
-        if (typeof window.ethereum !== 'undefined') {
-            let chainId = await window.ethereum.request({method: 'eth_chainId'})
-            if (chainId === "0x1" || chainId === "0x3" || chainId === "0x4" || chainId === "0x5" || chainId === "0x2a" || chainId === "0x539") {
-
-            }
-        }
-    }
-
 
     return (
         <div className="">

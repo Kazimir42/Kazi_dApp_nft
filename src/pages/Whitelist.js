@@ -4,9 +4,15 @@ import ButtonExternal from "../components/ButtonExternal";
 import { db } from "../firebase"
 import {collection, query, where, getDocs, setDoc, doc } from "firebase/firestore";
 import { v4 as uuidv4 } from 'uuid';
+import {Navigate, Outlet} from "react-router-dom";
+import { useStepValue } from '../context/StepContext'
 
 
 function Whitelist() {
+
+    //STEP
+    const {currentUser} = useStepValue()
+
     const [count, setCount] = useState(0)
     const [accounts, setAccounts] = useState([]);
     const [balance, setBalance] = useState();

@@ -7,15 +7,16 @@ import ContractUpdate from "../components/ContractUpdate";
 import ContractUpdateButton from "../components/ContractUpdateButton";
 import { db } from "../firebase"
 import {collection, query, where, getDocs, setDoc, doc, updateDoc } from "firebase/firestore";
+import {address} from '../contract' //address of contract
 
 const {MerkleTree} = require("merkletreejs");
 const keccak256 = require("keccak256");
 
-const address = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; //address of contract
 
 function Admin() {
     //USER
     const {currentUser} = useAuthValue()
+    const [accounts, setAccounts] = useState([]);
 
     //CONTRACT DATA
     const [totalNft, setTotalNft] = useState(0)
@@ -72,6 +73,8 @@ function Admin() {
         if (typeof window.ethereum !== 'undefined') {
             let chainId = await window.ethereum.request({method: 'eth_chainId'})
             if (chainId === "0x1" || chainId === "0x3" || chainId === "0x4" || chainId === "0x5" || chainId === "0x2a" || chainId === "0x539") {
+                let accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
+                setAccounts(accounts);
 
                 //provider and signer need to watch / update contract data
                 const tempProvider = new ethers.providers.Web3Provider(window.ethereum);
@@ -156,6 +159,9 @@ function Admin() {
         //create merkle tree
         const leaves = tab.map((address) => keccak256(address));
         const tree = new MerkleTree(leaves, keccak256, {sort: true});
+
+        const leaf = keccak256(accounts[0]);
+
         const root = tree.getHexRoot();
 
         try {

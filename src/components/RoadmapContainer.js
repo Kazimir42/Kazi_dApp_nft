@@ -1,6 +1,5 @@
 import RoadmapElement from "./RoadmapElement";
 
-
 function RoadmapContainer() {
     return (
         <div className="small-container mx-auto pt-16 pb-16">
