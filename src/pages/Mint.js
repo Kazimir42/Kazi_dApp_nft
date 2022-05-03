@@ -33,7 +33,6 @@ function Mint() {
 
                 setCount(parseFloat(totalCount).toFixed(0))
 
-
             }
         }
     }

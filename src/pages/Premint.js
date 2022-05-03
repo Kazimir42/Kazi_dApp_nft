@@ -12,6 +12,33 @@ function Premint() {
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
 
+    useEffect(() => {
+        getData();
+    }, [])
+
+
+    async function getData() {
+        if (typeof window.ethereum !== 'undefined') {
+            let chainId = await window.ethereum.request({method: 'eth_chainId'})
+            if (chainId === "0x1" || chainId === "0x3" || chainId === "0x4" || chainId === "0x5" || chainId === "0x2a" || chainId === "0x539") {
+                let accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
+                setAccounts(accounts);
+
+                //provider and signer need to watch / update contract data
+                const tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+
+                const tempWatchContract = new ethers.Contract(address, Contract.abi, tempProvider);
+
+                let totalCount = await tempWatchContract.totalSupply()
+
+                setCount(parseFloat(totalCount).toFixed(0))
+
+
+            }
+        }
+    }
+
+
     async function preMint() {
         //get account
         if (typeof window.ethereum !== 'undefined') {
