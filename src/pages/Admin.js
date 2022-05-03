@@ -5,8 +5,8 @@ import {useAuthValue} from '../context/AuthContext'
 import ButtonExternal from "../components/ButtonExternal";
 import ContractUpdate from "../components/ContractUpdate";
 import ContractUpdateButton from "../components/ContractUpdateButton";
-import { db } from "../firebase"
-import {collection, query, where, getDocs, setDoc, doc, updateDoc } from "firebase/firestore";
+import {db} from "../firebase"
+import {doc, updateDoc} from "firebase/firestore";
 import {address} from '../contract' //address of contract
 
 const {MerkleTree} = require("merkletreejs");
@@ -31,6 +31,7 @@ function Admin() {
     const [notRevealedURI, setNotRevealedURI] = useState(0)
     const [baseExtension, setBaseExtension] = useState('')
     const [revealed, setRevealed] = useState(false)
+    const [soldOut, setSoldOut] = useState(false)
 
     //INFO
     const [error, setError] = useState('');
@@ -207,11 +208,11 @@ function Admin() {
                 let newValue = document.getElementById('inputPriceSale').value
                 contractForUpdate.changePriceSale(ethers.utils.parseUnits(newValue, decimals)) //need that else error with big number
                     .catch(function (e) {
-                    e.data ?
-                        setError(e.data.message)//get the contract error
-                        :
-                        setError(e.message) //get the MM error
-                })
+                        e.data ?
+                            setError(e.data.message)//get the contract error
+                            :
+                            setError(e.message) //get the MM error
+                    })
             }
         } catch (error) {
             setError(error)
@@ -268,6 +269,12 @@ function Admin() {
                         :
                         setError(e.message) //get the MM error
                 })
+
+                //update DB
+                let newCollection = {
+                    Reveal: true,
+                }
+                await updateDoc(doc(db, "steps", "eyZMZF6NREwvHwMLsDJb"), newCollection);
             } catch (error) {
                 setError(error)
             }
@@ -336,9 +343,26 @@ function Admin() {
         }
     }
 
+    async function soldout() {
+        try {
+
+            //update DB
+            let newCollection = {
+                Before: false,
+                Presale: false,
+                Sale: false,
+                SoldOut: true,
+            }
+            await updateDoc(doc(db, "steps", "eyZMZF6NREwvHwMLsDJb"), newCollection);
+
+        } catch (error) {
+            setError(error)
+        }
+    }
+
+
     function StepOnString() {
-        switch (currentStep)
-        {
+        switch (currentStep) {
             case 0:
                 return 'Before'
             case 1:
@@ -353,76 +377,102 @@ function Admin() {
     }
 
     function NiceAddress() {
-        return(
+        return (
             <div>
                 <div className="py-10">
-                    <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">Contract <span className="text-primary">Infos</span></h2>
+                    <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">Contract <span
+                        className="text-primary">Infos</span></h2>
                     <ul className="text-xl text-white">
-                        <li><span className="underline font-bold">Contract paused :</span> {paused ? 'true' : 'false'}</li>
+                        <li><span className="underline font-bold">Contract paused :</span> {paused ? 'true' : 'false'}
+                        </li>
                         <li><span className="underline font-bold">Contract address :</span> {address}</li>
                         <li><span className="underline font-bold">Whitelist Merkle root :</span> {merkleRoot}</li>
                         <li><span className="underline font-bold">NTFs number :</span> {totalNft}</li>
                         <li><span className="underline font-bold">Max mint :</span> {maxMint}</li>
-                        <li><span className="underline font-bold">Current step :</span> <StepOnString /></li>
+                        <li><span className="underline font-bold">Current step :</span> <StepOnString/></li>
                         <li><span className="underline font-bold">Price presale :</span> {pricePresale} ETH</li>
                         <li><span className="underline font-bold">Price sale :</span> {priceSale} ETH</li>
                         <li><span className="underline font-bold">BaseURI :</span> {baseURI}</li>
                         <li><span className="underline font-bold">NotRevealedURI :</span> {notRevealedURI}</li>
                         <li><span className="underline font-bold">BaseExtension :</span> {baseExtension}</li>
-                        <li><span className="underline font-bold">Nft revealed :</span> {revealed ? 'true' : 'false'}</li>
+                        <li><span className="underline font-bold">Nft revealed :</span> {revealed ? 'true' : 'false'}
+                        </li>
                     </ul>
                 </div>
 
                 <div className="py-10 grid grid-cols-12 gap-16">
                     <div className="col-span-6">
-                        <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">Update contract <span className="text-primary">data</span></h2>
+                        <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">Update
+                            contract <span className="text-primary">data</span></h2>
 
-                        <ContractUpdate title="Whitelist Merkle root :" description="Lorem ipsum dolor sit amet." type="file" inputClass="text-white" buttonTitle="Validate" onChange={uploadFile} onClick={newMerkleRoot} />
+                        <ContractUpdate title="Whitelist Merkle root :" description="Lorem ipsum dolor sit amet."
+                                        type="file" inputClass="text-white" buttonTitle="Validate" onChange={uploadFile}
+                                        onClick={newMerkleRoot}/>
 
-                        <ContractUpdate title="Max mint allowed :" description="Lorem ipsum dolor sit amet." id="inputMaxMint" type="number" placeholder="number" buttonTitle="Validate" onClick={updateMaxMint}/>
+                        <ContractUpdate title="Max mint allowed :" description="Lorem ipsum dolor sit amet."
+                                        id="inputMaxMint" type="number" placeholder="number" buttonTitle="Validate"
+                                        onClick={updateMaxMint}/>
 
-                        <ContractUpdate title="Price presale :" description="Lorem ipsum dolor sit amet." id="inputPricePresale" type="number" placeholder="in ETH" buttonTitle="Validate" onClick={() => updatePrice('presale')}/>
+                        <ContractUpdate title="Price presale :" description="Lorem ipsum dolor sit amet."
+                                        id="inputPricePresale" type="number" placeholder="in ETH" buttonTitle="Validate"
+                                        onClick={() => updatePrice('presale')}/>
 
-                        <ContractUpdate title="Price sale :" description="Lorem ipsum dolor sit amet." id="inputPriceSale" type="number" placeholder="in ETH" buttonTitle="Validate" onClick={() => updatePrice('sale')}/>
+                        <ContractUpdate title="Price sale :" description="Lorem ipsum dolor sit amet."
+                                        id="inputPriceSale" type="number" placeholder="in ETH" buttonTitle="Validate"
+                                        onClick={() => updatePrice('sale')}/>
 
-                        <ContractUpdate title="baseURI :" description="Lorem ipsum dolor sit amet." id="inputBaseUri" type="text" placeholder="ipfs://URI/" buttonTitle="Validate" onClick={() => updateUri('baseURI')}/>
+                        <ContractUpdate title="baseURI :" description="Lorem ipsum dolor sit amet." id="inputBaseUri"
+                                        type="text" placeholder="ipfs://URI/" buttonTitle="Validate"
+                                        onClick={() => updateUri('baseURI')}/>
 
-                        <ContractUpdate title="notRevealedURI :" description="Lorem ipsum dolor sit amet." id="inputNotRevealedUri" type="text" placeholder="ipfs://URI/" buttonTitle="Validate" onClick={() => updateUri('notRevealedURI')}/>
+                        <ContractUpdate title="notRevealedURI :" description="Lorem ipsum dolor sit amet."
+                                        id="inputNotRevealedUri" type="text" placeholder="ipfs://URI/"
+                                        buttonTitle="Validate" onClick={() => updateUri('notRevealedURI')}/>
 
-                        <ContractUpdate title="baseExtension :" description="Lorem ipsum dolor sit amet." id="inputBaseExtension" type="text" placeholder=".json" buttonTitle="Validate" onClick={updateExtension}/>
+                        <ContractUpdate title="baseExtension :" description="Lorem ipsum dolor sit amet."
+                                        id="inputBaseExtension" type="text" placeholder=".json" buttonTitle="Validate"
+                                        onClick={updateExtension}/>
 
                     </div>
 
-
-
                     <div className="col-span-6">
-                        <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">Act on <span className="text-primary">contract</span></h2>
+                        <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">Act on <span
+                            className="text-primary">contract</span></h2>
 
                         {
                             paused
                                 ?
-                                <ContractUpdateButton title="Contract status :"  description="already paused" buttonTitle="Unpause" onClick={() => pausedContract(false)}/>
+                                <ContractUpdateButton title="Contract status :" description="already paused"
+                                                      buttonTitle="Unpause" onClick={() => pausedContract(false)}/>
                                 :
-                                <ContractUpdateButton title="Contract status :"  description="Lorem ipsum dolor sit amet." buttonTitle="Pause" onClick={() => pausedContract(true)}/>
+                                <ContractUpdateButton title="Contract status :"
+                                                      description="Lorem ipsum dolor sit amet." buttonTitle="Pause"
+                                                      onClick={() => pausedContract(true)}/>
                         }
 
 
-                        <ContractUpdateButton title="Contract step :"  description="Change step of contract" buttonTitle="Start presale" onClick={setUpPresale} buttonTitle2="Start public sale" onClick2={setUpSale} />
+                        <ContractUpdateButton title="Contract step :" description="Change step of contract"
+                                              buttonTitle="Start presale" onClick={setUpPresale}
+                                              buttonTitle2="Start public sale" onClick2={setUpSale}/>
 
 
                         {
                             revealed
                                 ?
-                                <ContractUpdateButton title="Reveal nft ?"  description="already revealed" />
+                                <ContractUpdateButton title="Reveal nft ?" description="already revealed"/>
                                 :
-                                <ContractUpdateButton title="Reveal nft ?"  description="Lorem ipsum dolor sit amet." buttonTitle="Reveal" onClick={reveal}/>
+                                <ContractUpdateButton title="Reveal nft ?" description="Lorem ipsum dolor sit amet."
+                                                      buttonTitle="Reveal" onClick={reveal}/>
                         }
 
-                        <ContractUpdate title="Make a gift (1 nft) :" description="Lorem ipsum dolor sit amet." id="inputGift" type="text" placeholder="address" buttonTitle="Send" onClick={makeGift} />
+                        <ContractUpdate title="Make a gift (1 nft) :" description="Lorem ipsum dolor sit amet."
+                                        id="inputGift" type="text" placeholder="address" buttonTitle="Send"
+                                        onClick={makeGift}/>
 
                         {
                             error ?
-                                <div className="my-4 bg-dark-background text-red-600 p-4 text-xl rounded-sm border border-red-600">
+                                <div
+                                    className="my-4 bg-dark-background text-red-600 p-4 text-xl rounded-sm border border-red-600">
                                     {error}
                                 </div>
                                 :
@@ -430,6 +480,23 @@ function Admin() {
                         }
 
                     </div>
+
+                    <div className="col-span-6">
+                        <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">Act on <span
+                            className="text-primary">website</span></h2>
+
+
+                        {
+                            soldOut
+                                ?
+                                <ContractUpdateButton title="nft soldOut ?" description="already revealed"/>
+                                :
+                                <ContractUpdateButton title="nft soldOut ?" description="Lorem ipsum dolor sit amet."
+                                                      buttonTitle="soldOut" onClick={soldout}/>
+                        }
+
+                    </div>
+
                 </div>
 
             </div>
@@ -438,12 +505,12 @@ function Admin() {
     }
 
     function BadAddress() {
-        return(
+        return (
             <div>
                 <div className="text-primary text-2xl text-center mb-8 font-bold">
                     Check your connected address and network
                 </div>
-                <ButtonExternal title="Connect" onClick={getData} class="mx-auto" />
+                <ButtonExternal title="Connect" onClick={getData} class="mx-auto"/>
             </div>
         )
     }
@@ -452,15 +519,16 @@ function Admin() {
         if (success) {
             return <NiceAddress/>;
         }
-        return <BadAddress />;
+        return <BadAddress/>;
     }
 
     return (
         <div>
             <section id="" className="min-h-screen bg-background">
                 <div className="container mx-auto pt-32">
-                    <h1 className="text-6xl font-black text-white text-center uppercase mb-16 leading-tight px-32">Admin dashboard</h1>
-                    <Render />
+                    <h1 className="text-6xl font-black text-white text-center uppercase mb-16 leading-tight px-32">Admin
+                        dashboard</h1>
+                    <Render/>
                 </div>
             </section>
         </div>
