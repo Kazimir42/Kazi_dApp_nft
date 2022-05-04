@@ -94,9 +94,9 @@ function Whitelist() {
     return (
         <div className="">
             <section id="whitelist2" className="min-h-screen" style={{backgroundImage: 'url(./images/background.jpg)'}}>
-                <div className="container mx-auto pt-32 max-w-3xl">
-                    <div className="bg-background bg-opacity-70 backdrop-blur-sm h-fit w-fit p-12 max-w-full rounded mx-auto shadow-md max-w-3xl rounded-sm">
-                        <h1 className="text-5xl font-black text-white text-center uppercase mb-8 leading-tight px-32">Whitelist</h1>
+                <div className="container mx-auto pt-32 px-8 pb-16 max-w-3xl">
+                    <div className="bg-background bg-opacity-70 backdrop-blur-sm p-12 max-w-full rounded mx-auto shadow-md max-w-3xl rounded-sm">
+                        <h1 className="text-5xl font-black text-white text-center uppercase mb-8 leading-tight ">Whitelist</h1>
                         <p className="text-3xl font-bold text-white text-center mb-16">To be whitelisted you can juste click on the button bellow</p>
                         <div className="text-white text-center mb-16">
                             <p className="text-4xl font-black"><span className="text-primary">{count}</span>/100*</p>
@@ -114,9 +114,9 @@ function Whitelist() {
             </section>
 
             <section id="whitelist1" className="min-h-screen" style={{backgroundImage: 'url(./images/background.jpg)'}}>
-                <div className="container mx-auto pt-32">
-                    <div className="bg-background bg-opacity-70 backdrop-blur-sm h-fit w-fit p-12 rounded mx-auto shadow-md max-w-3xl rounded-sm">
-                        <h1 className="text-5xl font-black text-white text-center uppercase mb-8 leading-tight px-32">Whitelist</h1>
+                <div className="container mx-auto px-8 pb-16 pt-32">
+                    <div className="bg-background bg-opacity-70 backdrop-blur-sm  p-12 rounded mx-auto shadow-md max-w-3xl rounded-sm">
+                        <h1 className="text-5xl font-black text-white text-center uppercase mb-8 leading-tight">Whitelist</h1>
                         <p className="text-3xl font-bold text-white text-center mb-16">To get a chance to be Whitelisted join us on</p>
                         <ButtonExternal title="Discord" where="https://google.fr/" class="mx-auto" />
                     </div>

@@ -401,7 +401,7 @@ function Admin() {
                 </div>
 
                 <div className="py-10 grid grid-cols-12 gap-16">
-                    <div className="col-span-6">
+                    <div className="col-span-12 lg:col-span-6">
                         <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">Update
                             contract <span className="text-primary">data</span></h2>
 
@@ -435,7 +435,7 @@ function Admin() {
 
                     </div>
 
-                    <div className="col-span-6">
+                    <div className="col-span-12 lg:col-span-6">
                         <h2 className="text-5xl font-black text-white leading-tight uppercase mb-12">Act on <span
                             className="text-primary">contract</span></h2>
 
@@ -525,8 +525,8 @@ function Admin() {
     return (
         <div>
             <section id="" className="min-h-screen bg-background">
-                <div className="container mx-auto pt-32">
-                    <h1 className="text-6xl font-black text-white text-center uppercase mb-16 leading-tight px-32">Admin
+                <div className="container mx-auto px-8 pt-32">
+                    <h1 className="text-6xl font-black text-white text-center uppercase mb-16 leading-tight ">Admin
                         dashboard</h1>
                     <Render/>
                 </div>

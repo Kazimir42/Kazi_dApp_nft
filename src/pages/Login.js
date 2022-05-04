@@ -28,8 +28,8 @@ function Login() {
     return (
         <div>
             <section id="" className="min-h-screen bg-background">
-                <div className="container mx-auto pt-32 mb-8">
-                    <h1 className="text-6xl font-black text-white text-center uppercase mb-16 leading-tight px-32">Login</h1>
+                <div className="container mx-auto pt-32 px-8 mb-8">
+                    <h1 className="text-6xl font-black text-white text-center uppercase mb-16 leading-tight">Login</h1>
                     <form onSubmit={handleForm} className="w-96 mx-auto text-center flex flex-col gap-2">
                         <input type="email" className="p-2 rounded-sm" onChange={e => setEmail(e.target.value)} placeholder="email"/>
                         <input type="password" className="p-2 rounded-sm" onChange={e => setPassword(e.target.value)} placeholder="password"/>

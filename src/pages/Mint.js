@@ -90,9 +90,9 @@ function Mint() {
     return (
         <div className="">
             <section id="mint" className="min-h-screen" style={{backgroundImage: 'url(./images/background.jpg)'}}>
-                <div className="container mx-auto pt-32">
-                    <div className="bg-background bg-opacity-70 backdrop-blur-sm h-fit w-fit p-12 rounded mx-auto shadow-md rounded-sm max-w-full max-w-3xl">
-                        <h1 className="text-5xl font-black text-white text-center uppercase mb-8 leading-tight px-32">Mint</h1>
+                <div className="container mx-auto pt-32 px-8 pb-16 max-w-3x">
+                    <div className="bg-background bg-opacity-70 backdrop-blur-sm p-12 rounded shadow-md rounded-sm max-w-full mx-auto max-w-3xl">
+                        <h1 className="text-5xl font-black text-white text-center uppercase mb-8 leading-tight">Mint</h1>
                         <p className="text-3xl font-bold text-white text-center mb-16">You can mint now for <span className="text-primary"> 0.0003 ETH</span>/nft</p>
                         <div className="text-white text-center mb-16">
                             <p className="text-4xl font-black"><span className="text-primary">{count}</span>/100*</p>

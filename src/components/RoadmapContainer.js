@@ -2,8 +2,8 @@ import RoadmapElement from "./RoadmapElement";
 
 function RoadmapContainer() {
     return (
-        <div className="small-container mx-auto pt-16 pb-16">
-            <h2 className="text-5xl font-black text-big-content-color text-center uppercase mb-32">The <span className="text-primary">ROADMAP</span></h2>
+        <div className="small-container mx-auto pt-8 sm:pt-16 px-8 pb-16">
+            <h2 className="text-4xl lg:text-5xl font-black text-big-content-color text-center uppercase mb-16 lg:mb-32">The <span className="text-primary">ROADMAP</span></h2>
 
             <ol className="relative border-l-4 border-dark-primary">
                 <RoadmapElement key={0} title="Phase 1 - The title" date="February - March 22’" description={[

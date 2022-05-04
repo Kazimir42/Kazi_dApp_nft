@@ -17,23 +17,23 @@ function Home() {
     return (
         <div className="">
 
-            <section id="home" className="min-h-screen" style={{backgroundImage: 'url(./images/background.jpg)'}}>
+            <section id="home" className="min-h-screen pb-32 px-8" style={{backgroundImage: 'url(./images/background.jpg)'}}>
                 <div className="container mx-auto pt-64">
-                    <h1 className="text-6xl font-black text-big-content-color text-center uppercase mb-16 leading-tight px-32">Lorem
+                    <h1 className="text-5xl lg:text-6xl font-black text-big-content-color text-center uppercase mb-16 leading-tight lg:px-32">Lorem
                         ipsum dolor sit amet cursus, consectetur adipiscing elit.</h1>
                     <StepButton/>
                 </div>
             </section>
 
             <section id="intro" className="bg-background">
-                <div className="small-container mx-auto grid grid-cols-2 pt-32 pb-36 gap-12">
+                <div className="small-container px-8 mx-auto grid sm:grid-cols-2 pt-32 pb-16 lg:pb-36 gap-12">
 
                     <div>
                         <ExampleNtf image='nft.gif' class="ml-auto w-full"/>
                     </div>
 
                     <div className="col-span-1 my-auto">
-                        <h2 className="text-5xl font-black text-big-content-color leading-tight uppercase mb-12">ABOUT THE <span
+                        <h2 className="text-4xl lg:text-5xl font-black text-big-content-color leading-tight uppercase mb-12">ABOUT THE <span
                             className="text-primary">Artist</span></h2>
 
                         <div className="text-content-color text-xl mb-8">
@@ -69,10 +69,10 @@ function Home() {
 
             <section id="community" className="bg-background" >
 
-                <div className="container mx-auto grid grid-cols-3 pt-32 pb-32 gap-4">
-                    <ExampleNtf image='3.png' class="mr-auto col-span-1"/>
+                <div className="container mx-auto grid sm:grid-cols-3 pt-32 px-8 pb-32 gap-8">
+                    <ExampleNtf image='3.png' class="sm:mr-auto w-full col-span-2 sm:col-span-1"/>
                     <div className="col-span-2 my-auto">
-                        <h2 className="text-5xl font-black text-big-content-color leading-tight uppercase mb-12">A large <span
+                        <h2 className="text-4xl lg:text-5xl font-black text-big-content-color leading-tight uppercase mb-12">A large <span
                             className="text-primary">Community</span></h2>
 
                         <div className="text-content-color text-xl">

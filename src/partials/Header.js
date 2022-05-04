@@ -10,7 +10,7 @@ library.add(faDiscord, faTwitter);
 function Header() {
 
     return (
-        <header className="py-4 absolute w-full">
+        <header className="py-4 px-8 absolute w-full">
             <div className="flex flex-row mx-auto container justify-between items-center">
                 <Link to="/">
                     <img src="logo192.png" className="h-16" />
@@ -26,7 +26,6 @@ function Header() {
                     </div>
                     <StepButton />
                 </div>
-
             </div>
         </header>
     )

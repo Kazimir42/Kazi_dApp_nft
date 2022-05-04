@@ -8,8 +8,8 @@ function Footer() {
     const {currentUser} = useAuthValue();
 
     return(
-        <footer className="py-16 mt-auto bg-dark-background">
-            <div className="container mx-auto flex flex-row justify-between text-lg">
+        <footer className="py-16 px-2 mt-auto bg-dark-background">
+            <div className="container mx-auto flex px-8 flex-row justify-between text-lg">
 
                 <ul>
                     <li>
